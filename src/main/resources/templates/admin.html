@@ -1,0 +1,102 @@
+#parse("adminheader.html")
+
+<div id="main">
+    #if ($admin)
+    <h1 align="center">欢迎您，管理员$!{admin.name}</h1>
+    #else
+    <h1 align="center">管理员,请先登录</h1>
+    #end
+    <div class="container" id="daily">
+        <div class="jscroll-inner">
+            <div class="daily">
+
+                #set($cur_date = '')
+                #foreach($vo in $vos)
+                #if ($cur_date != $date.format('yyyy-MM-dd', $vo.votes.time))
+                #if ($foreach.index > 0)
+            </div> ## 上一个要收尾
+            #end
+            #set($cur_date = $date.format('yyyy-MM-dd', $vo.votes.time))
+            <h3 class="date">
+                <i class="fa icon-calendar"></i>
+                <span>截止时间 &nbsp; $date.format('yyyy-MM-dd', $vo.votes.time)</span>
+            </h3>
+
+            <div class="posts">
+                #end
+                <div class="post">
+
+                    <div class="content" data-url="/votes/$!{votes.id}">
+                        <div >
+                            <img class="content-img" src="$!{vo.votes.image}" alt="">
+                        </div>
+                        <div class="content-main">
+                            <h3 class="title">
+                                <a target="_blank" rel="external nofollow" href="/option?questionId=$!{vo.votes.questionId}">$!{vo.votes.questionName}</a>
+                            </h3>
+                            <div class="meta">
+                                www.toupiao.com/$!{vo.votes.questionId}
+                                <span>
+                                            <i class="fa icon-comment"></i> $!{vo.votes.count}
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <a href="/vote/alter?questionId=$!{vo.votes.questionId}">修改</a>
+                            <a href="/option/delete?questionId=$!{vo.votes.questionId}">删除</a>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+                <!--
+                <div class="alert alert-warning subscribe-banner" role="alert">
+                  《头条八卦》，每日 Top 3 通过邮件发送给你。      <a class="btn btn-info btn-sm pull-right" href="http://nowcoder.com/account/settings">立即订阅</a>
+                </div>
+                -->
+                #if ($foreach.count == $vos.size()) ##最后有个元素要收尾
+            </div>
+            #end
+
+            #end
+
+
+        </div>
+        <div class="user-avatar">
+            <form action="/option/vote">
+                投票名称:<br>
+                <input type="text" name="votename" style="width:300px">
+                <br>
+                选项A:<br>
+                <input type="text" name="option" style="width:300px">
+                <br>
+                选项B:<br>
+                <input type="text" name="option" style="width:300px">
+                <br>
+                选项C:<br>
+                <input type="text" name="option" style="width:300px">
+                <br>
+                选项D:<br>
+                <input type="text" name="option" style="width:300px">
+                <br><br>
+                <input type="radio" name="type" value="匿名投票" >匿名投票
+                <input type="radio" name="type" value="非匿名投票" >非匿名投票
+                <br>
+                <input type="date" name="time" style="width:300px">
+                <br>
+                <input type="submit" value="提交">
+            </form>
+        </div>
+    </div>
+</div>
+
+#if ($pop)
+<script>
+    window.loginpop = $!{pop};
+</script>
+#end

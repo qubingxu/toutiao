@@ -1,0 +1,137 @@
+#parse("header.html")
+
+    <div id="main">
+        <div class="container" id="daily">
+            <button id="time" type="button">按时间排序</button>
+            <button id="count" type="button">按点击数排序</button>
+            <div id="sorti" class="jscroll-inner" style="display: none">
+                <div class="daily">
+
+                    #set($cur_date = '')
+                    #foreach($vo in $vos)
+                    #if ($cur_date != $date.format('yyyy-MM-dd', $vo.votes.time))
+                        #if ($foreach.index > 0)
+                            </div> ## 上一个要收尾
+                        #end
+                        #set($cur_date = $date.format('yyyy-MM-dd', $vo.votes.time))
+                    <h3 class="date">
+                        <i class="fa icon-calendar"></i>
+                        <span>截止时间 &nbsp; $date.format('yyyy-MM-dd', $vo.votes.time)</span>
+                    </h3>
+
+                    <div class="posts">
+                    #end
+                        <div class="post">
+
+                            <div class="content" data-url="/votes/$!{votes.id}">
+                                <div >
+                                    <img class="content-img" src="$!{vo.votes.image}" alt="">
+                                </div>
+                                <div class="content-main">
+                                    <h3 class="title">
+                                        <a target="_blank" rel="external nofollow" href="/vote/option/?questionId=$!{vo.votes.questionId}">$!{vo.votes.questionName}</a>
+                                    </h3>
+                                    <div class="meta">
+                                        www.toupiao.com/$!{vo.votes.questionId}
+                                        <span>
+                                            <i class="fa icon-comment"></i> $!{vo.votes.count}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <a href="/user/$!{vo.user.id}/"><img width="32" class="img-circle" src="$!{vo.user.headUrl}"></a>
+                                </div>
+
+
+                            </div>
+
+                            <div class="subject-name">来自 <a href="/user/$!{vo.user.id}/">$!{vo.user.name}</a></div>
+                        </div>
+
+                        <!--
+                        <div class="alert alert-warning subscribe-banner" role="alert">
+                          《头条八卦》，每日 Top 3 通过邮件发送给你。      <a class="btn btn-info btn-sm pull-right" href="http://nowcoder.com/account/settings">立即订阅</a>
+                        </div>
+                        -->
+                    #if ($foreach.count == $vos.size()) ##最后有个元素要收尾
+                    </div>
+                    #end
+
+                    #end
+
+                    </div>
+                </div>
+            <div class="jscroll-inner" id="sorco">
+                <div class="daily">
+
+                    #set($cur_count = '')
+                    #foreach($co in $cou)
+                    #if ($cur_count != $co.votes.count)
+                    #if ($foreach.index > 0)
+                </div> ## 上一个要收尾
+                #end
+                #set($cur_count = $co.votes.count)
+                <h3 class="date">
+                    <i class="fa icon-calendar"></i>
+                    <span>截止时间 &nbsp; $date.format('yyyy-MM-dd', $co.votes.time)</span>
+                </h3>
+
+                <div class="posts">
+                    #end
+                    <div class="post">
+
+                        <div class="content" data-url="/votes/$!{votes.id}">
+                            <div >
+                                <img class="content-img" src="$!{vo.votes.image}" alt="">
+                            </div>
+                            <div class="content-main">
+                                <h3 class="title">
+                                    <a target="_blank" rel="external nofollow" href="/vote/option/?questionId=$!{vo.votes.questionId}">$!{co.votes.questionName}</a>
+                                </h3>
+                                <div class="meta">
+                                    www.toupiao.com/$!{co.votes.questionId}
+                                    <span>
+                                            <i class="fa icon-comment"></i> $!{co.votes.count}
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <a href="/user/$!{vo.user.id}/"><img width="32" class="img-circle" src="$!{vo.user.headUrl}"></a>
+                            </div>
+
+
+                        </div>
+
+                        <div class="subject-name">来自 <a href="/user/$!{vo.user.id}/">$!{co.user.name}</a></div>
+                    </div>
+
+                    <!--
+                    <div class="alert alert-warning subscribe-banner" role="alert">
+                      《头条八卦》，每日 Top 3 通过邮件发送给你。      <a class="btn btn-info btn-sm pull-right" href="http://nowcoder.com/account/settings">立即订阅</a>
+                    </div>
+                    -->
+                    #if ($foreach.count == $vos.size()) ##最后有个元素要收尾
+                </div>
+                #end
+
+                #end
+
+
+            </div>
+            </div>
+        </div>
+
+    </div>
+
+
+#if ($pop)
+<script>
+window.loginpop = $!{pop};
+</script>
+#end
+
+#parse("footer.html")
